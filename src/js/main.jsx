@@ -1,18 +1,27 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { useState, useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import Contador from "./components/Contador";
 
-//Bootstrap
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap"
+const App = () => {
+  const [segundosAcumulados, setSegundosAcumulados] = useState(0);
 
-// index.css'
-import '../styles/index.css'
+  useEffect(() => {
+    const intervalo = setInterval(() => {
+      setSegundosAcumulados((prev) => prev + 1);
+    }, 1000);
 
-// components
-import Home from './components/Home';
+    return () => clearInterval(intervalo);
+  }, []);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Home/>
-  </React.StrictMode>,
-)
+
+  const formatoSegundos = segundosAcumulados.toString().padStart(6, '0');
+
+  return (
+    <div className="p-6 bg-white text-center">
+      <h1 className="text-2xl font-bold mb-4">Contador</h1>
+      <div className="mt-4 text-xl font-bold"><strong>{formatoSegundos}</strong></div>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
